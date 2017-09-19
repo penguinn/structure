@@ -3,10 +3,10 @@ package sort
 import "fmt"
 
 func CountSort(inArray []int) []int {
-	//size := len(inArray)
-	//if size == 0{
-	//	return  inArray
-	//}
+	size := len(inArray)
+	if size == 0{
+		return  inArray
+	}
 	//取得最大数
 	var maxNum int
 	for _, num := range inArray{
