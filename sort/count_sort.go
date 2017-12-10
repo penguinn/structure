@@ -4,6 +4,8 @@ import (
 	"fmt"
 )
 
+/*插入排序*/
+
 /*插入排序思想比较简单，分别从list[1]开始设置标兵，把标兵和前面比较，然后移位，插入标兵*/
 func InsertSort(inArray []int) []int {
 	size := len(inArray)
@@ -58,6 +60,8 @@ func shellSort(inArray []int, size int, blank int) []int {
 	return inArray
 }
 
+/*选择排序*/
+
 /*选择排序，选择一个最小的数放在最前面*/
 func SelectSort(inArray []int) []int {
 	size := len(inArray)
@@ -75,6 +79,54 @@ func SelectSort(inArray []int) []int {
 		}
 		inArray[i], inArray[index] = inArray[index], inArray[i]
 	}
+	return inArray
+}
+
+/*堆排序，建立一个小顶堆，然后每次选择根节点*/
+func HeapSort(inArray []int) []int {
+	size := len(inArray)
+	if size == 0 {
+		return inArray
+	}
+
+	inArray = HeapBuild(inArray, size)
+
+	outArray := []int{}
+
+	for j := 0; j < size-1; j++ {
+		outArray = append(outArray, inArray[0])
+		inArray[0] = inArray[size-1-j]
+		inArray = inArray[0 : size-1-j]
+		inArray = HeapAdjust(inArray, 0, size-1-j)
+	}
+	outArray = append(outArray, inArray[0])
+	return outArray
+}
+
+func HeapBuild(inArray []int, size int) []int {
+	for i := (size-1)/2 - 1; i >= 0; i-- {
+		inArray = HeapAdjust(inArray, i, size)
+	}
+	return inArray
+}
+
+func HeapAdjust(inArray []int, i int, size int) []int {
+	//有右叶子节点
+	tmp := inArray[i]
+	child := i*2 + 1
+	for child < size-1 {
+		if child+1 < size-1 && inArray[child+1] < inArray[child] {
+			child++
+		}
+		if inArray[child] < tmp {
+			inArray[i] = inArray[child]
+			i = child
+			child = child*2 + 1
+		} else {
+			break
+		}
+	}
+	inArray[i] = tmp
 	return inArray
 }
 
