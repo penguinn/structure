@@ -89,7 +89,7 @@ func HeapSort(inArray []int) []int {
 		return inArray
 	}
 
-	inArray = HeapBuild(inArray, size)
+	inArray = heapBuild(inArray, size)
 
 	outArray := []int{}
 
@@ -97,20 +97,20 @@ func HeapSort(inArray []int) []int {
 		outArray = append(outArray, inArray[0])
 		inArray[0] = inArray[size-1-j]
 		inArray = inArray[0 : size-1-j]
-		inArray = HeapAdjust(inArray, 0, size-1-j)
+		inArray = heapAdjust(inArray, 0, size-1-j)
 	}
 	outArray = append(outArray, inArray[0])
 	return outArray
 }
 
-func HeapBuild(inArray []int, size int) []int {
+func heapBuild(inArray []int, size int) []int {
 	for i := (size-1)/2 - 1; i >= 0; i-- {
-		inArray = HeapAdjust(inArray, i, size)
+		inArray = heapAdjust(inArray, i, size)
 	}
 	return inArray
 }
 
-func HeapAdjust(inArray []int, i int, size int) []int {
+func heapAdjust(inArray []int, i int, size int) []int {
 	//有右叶子节点
 	tmp := inArray[i]
 	child := i*2 + 1
@@ -128,6 +128,40 @@ func HeapAdjust(inArray []int, i int, size int) []int {
 	}
 	inArray[i] = tmp
 	return inArray
+}
+
+func QuickSort(inArray []int) []int {
+	size := len(inArray)
+	if size == 0 {
+		return inArray
+	}
+	quickSort(&inArray, 0, size-1)
+	return inArray
+}
+
+func quickSort(inArray *[]int, begin int, end int) {
+	if begin < end {
+		pos := position(inArray, begin, end)
+		quickSort(inArray, begin, pos-1)
+		quickSort(inArray, pos+1, end)
+	}
+}
+
+func position(inArray *[]int, begin int, end int) int {
+	if begin >= end {
+		return begin
+	}
+	target := (*inArray)[end]
+	storeIndex := begin
+	for i := begin; i < end; i++ {
+		if (*inArray)[i] < target {
+			(*inArray)[storeIndex], (*inArray)[i] = (*inArray)[i], (*inArray)[storeIndex]
+			storeIndex++
+		}
+	}
+
+	(*inArray)[storeIndex], (*inArray)[end] = (*inArray)[end], (*inArray)[storeIndex]
+	return storeIndex
 }
 
 /*基数排序*/
