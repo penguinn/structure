@@ -164,6 +164,42 @@ func position(inArray *[]int, begin int, end int) int {
 	return storeIndex
 }
 
+func MergeSort(inArray []int) []int {
+	size := len(inArray)
+	if size <= 1 {
+		return inArray
+	}
+	pos := size / 2
+	left := MergeSort(inArray[:pos])
+	right := MergeSort(inArray[pos:])
+	inArray = merge(left, right)
+	return inArray
+}
+
+func merge(left, right []int) []int {
+	leftLength := len(left)
+	rightLength := len(right)
+	var i int
+	var j int
+	outArray := []int{}
+	for i < leftLength && j < rightLength {
+		if left[i] <= right[j] {
+			outArray = append(outArray, left[i])
+			i++
+		} else {
+			outArray = append(outArray, right[j])
+			j++
+		}
+	}
+	if i < leftLength {
+		outArray = append(outArray, left[i:]...)
+	}
+	if j < rightLength {
+		outArray = append(outArray, right[j:]...)
+	}
+	return outArray
+}
+
 /*基数排序*/
 func CountSort(inArray []int) []int {
 	size := len(inArray)
